@@ -1,5 +1,6 @@
 package ec.edu.epn.skyroute.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
@@ -18,11 +19,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class BaggageFeeCalculator {
 
-    private final PassengerService passengerService;
-
-    public BaggageFeeCalculator(PassengerService passengerService) {
-        this.passengerService = passengerService;
-    }
+    @Autowired(required = false)
+    private PassengerService passengerService;
 
 
     /**
@@ -39,7 +37,7 @@ public class BaggageFeeCalculator {
             throw new IllegalArgumentException("Parámetros de equipaje inválidos");
         }
 
-        boolean isVip = passengerService.isVip(passengerId);
+        boolean isVip = passengerService != null && passengerService.isVip(passengerId);
         double total = 0.0;
 
         for (int bagIndex = 1; bagIndex <= bagCount; bagIndex++) {
